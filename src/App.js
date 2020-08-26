@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <form>
+      <form action="/" method="post">
         <input type="text" placeholder="username" onChange={getName} />
         <input type="text" placeholder="email" onChange={getEmail} />
         <button
