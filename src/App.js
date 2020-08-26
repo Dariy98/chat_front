@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import { connectWithSocket, sendDataOnServer } from "./functions";
 
 function App() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const getName = (e) => setName(e.target.value);
+
+  const getEmail = (e) => setEmail(e.target.value);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <form>
+        <input type="text" placeholder="username" onChange={getName} />
+        <input type="text" placeholder="email" onChange={getEmail} />
+        <button
+          onClick={(e) => {
+            connectWithSocket();
+            sendDataOnServer(e, name, email);
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          auth
+        </button>
+      </form>
     </div>
   );
 }
