@@ -1,4 +1,3 @@
-//client
 import openSocket from "socket.io-client";
 
 const socket = openSocket("http://localhost:3001/");
@@ -6,24 +5,31 @@ const socket = openSocket("http://localhost:3001/");
 export function connectWithSocket() {
   //   socket.on("timer", (timestamp) => cb(null, timestamp));
   socket.on("connect", console.log(socket.connected));
-  socket.emit("subscribeToTimer", 1000);
+  // socket.emit("subscribeToTimer", 1000);
 }
 
-export const sendDataOnServer = (event, name, email) => {
+//возможно нужен будет счётчик для запросов
+//чтобы не больше одного
+export const sendDataOnServer = (event, email, password, name) => {
   event.preventDefault();
-  let user = {
-    email: email,
-    nickname: name,
-  };
-  console.log("user", user);
+  let user;
+  if (email === "" && password === "" && name === "") {
+    return alert("Enter correct data!");
+  } else {
+    user = {
+      email: email,
+      password: password,
+      nickname: name,
+    };
 
-  fetch("http://localhost:3001/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  });
+    fetch("http://localhost:3001/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
 
-  console.log("data send...", name, email);
+    console.log("data send...", user);
+  }
 };
