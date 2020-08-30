@@ -13,7 +13,7 @@ import AdminView from "./ForAdmin";
 
 export default function UserList() {
   let isAdmin = false;
-  console.log("admin", isAdmin);
+  // console.log("admin", isAdmin);
 
   return (
     <Grid item xs={4}>

@@ -1,3 +1,5 @@
+// import decode from "jwt-decode";
+
 // import openSocket from "socket.io-client";
 // import jwt from "socketio-jwt";
 // import io from "socket.io-client";
@@ -34,31 +36,53 @@
 //     });
 // });
 
+// let currentUser;
+// let token;
+
+// export let currentUser = {};
+export let token;
+// export let isAdmin = false;
+
 export const sendDataOnServer = (event, name, password) => {
   event.preventDefault();
 
   let user;
   if (password === "" || name === "") {
     return alert("Enter correct data!");
-  } else {
-    user = {
-      nickname: name,
-      password: password,
-    };
-
-    const response = fetch("http://localhost:3001/auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    }).then((res) => res.json());
-
-    //add token in localStorage
-    response.then((data) => {
-      localStorage.setItem("token", data.token);
-    });
-    //убрать
-    console.log("data send...", user);
   }
+  user = {
+    nickname: name,
+    password: password,
+  };
+
+  const response = fetch("http://localhost:3001/auth", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  }).then((res) => res.json());
+
+  //add token in localStorage
+  response.then((data) => {
+    localStorage.setItem("token", data.token);
+
+    token = data.token;
+  });
+  //убрать
+  console.log("data send...", user);
+  // console.log("currentUser", getCurrentUser());
 };
+
+export const deleteToken = () => {
+  localStorage.removeItem("token");
+};
+
+// export const getCurrentUser = () => {
+//   try {
+//     let currentUser = decode(token);
+//     return currentUser;
+//   } catch (e) {
+//     return null;
+//   }
+// };
