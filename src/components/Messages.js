@@ -3,26 +3,20 @@ import {
   Grid,
   List,
   ListItem,
+  Typography,
+  ListItemText,
   Avatar,
   ListItemAvatar,
-  ListItemText,
-  Typography,
 } from "@material-ui/core";
-import decode from "jwt-decode";
 
 import UserList from "./UserList";
+// import UserAvatar from "./Avatar";
+// import { generateAvatarColor } from "./../helpers/generateAvatarColor";
 
-//и user name для авы
-export default function Messages({ messages }) {
-  const token = localStorage.getItem("token");
-  let currentUser = decode(token);
-  console.log(currentUser.nickname);
-  //когда решится вопрос с бд
-  //можно будет рендерить сообщения
-  //и выводить соответственно нужное кол-во listitem
+export default function Messages({ messages, onlineUsers }) {
   return (
     <Grid container spacing={3} className="chat-box">
-      <UserList />
+      <UserList onlineUsers={onlineUsers} />
 
       <Grid item xs={8} className="messages-box">
         <Typography variant="h6">Messages here</Typography>
@@ -32,9 +26,9 @@ export default function Messages({ messages }) {
               return (
                 <ListItem key={index}>
                   <ListItemAvatar>
-                    <Avatar>{currentUser.nickname}</Avatar>
+                    <Avatar>{msg.user}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={msg} />
+                  <ListItemText primary={msg.message} />
                 </ListItem>
               );
             })}

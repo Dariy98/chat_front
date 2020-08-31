@@ -10,9 +10,11 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" component={IndexPage} exact />
-        <Route path="/login" render={() => <LoginPage />} exact />
-        <Route path="/chat" render={() => <ChatPage />} exact />
+        <div className="App">
+          <Route path="/" component={IndexPage} exact />
+          <Route path="/login" render={() => <LoginPage />} exact />
+          <Route path="/chat" render={() => <ChatPage />} exact />
+        </div>
       </Switch>
     </BrowserRouter>
   );

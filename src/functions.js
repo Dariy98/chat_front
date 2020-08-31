@@ -40,43 +40,43 @@
 // let token;
 
 // export let currentUser = {};
-export let token;
+// export let token;
 // export let isAdmin = false;
 
-export const sendDataOnServer = (event, name, password) => {
-  event.preventDefault();
+// export const sendDataOnServer = (event, name, password) => {
+//   event.preventDefault();
 
-  let user;
-  if (password === "" || name === "") {
-    return alert("Enter correct data!");
-  }
-  user = {
-    nickname: name,
-    password: password,
-  };
+//   let user;
+//   if (password === "" || name === "") {
+//     return alert("Enter correct data!");
+//   }
+//   user = {
+//     nickname: name,
+//     password: password,
+//   };
 
-  const response = fetch("http://localhost:3001/auth", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  }).then((res) => res.json());
+//   const response = fetch("http://localhost:3001/auth", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(user),
+//   }).then((res) => res.json());
 
-  //add token in localStorage
-  response.then((data) => {
-    localStorage.setItem("token", data.token);
+//   //add token in localStorage
+//   response.then((data) => {
+//     localStorage.setItem("token", data.token);
 
-    token = data.token;
-  });
-  //убрать
-  console.log("data send...", user);
-  // console.log("currentUser", getCurrentUser());
-};
+//     token = data.token;
+//   });
+//   //убрать
+//   console.log("data send...", user);
+//   // console.log("currentUser", getCurrentUser());
+// };
 
-export const deleteToken = () => {
-  localStorage.removeItem("token");
-};
+// export const deleteToken = () => {
+//   localStorage.removeItem("token");
+// };
 
 // export const getCurrentUser = () => {
 //   try {

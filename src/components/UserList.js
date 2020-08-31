@@ -11,9 +11,10 @@ import {
 
 import AdminView from "./ForAdmin";
 
-export default function UserList() {
+export default function UserList({ onlineUsers }) {
   let isAdmin = false;
   // console.log("admin", isAdmin);
+  // console.log("on", onlineUsers);
 
   return (
     <Grid item xs={4}>
@@ -24,24 +25,20 @@ export default function UserList() {
             <AdminView />
           ) : (
             <List>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar></Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="user name" />
-              </ListItem>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar></Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="user name" />
-              </ListItem>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar></Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="user name" />
-              </ListItem>
+              {onlineUsers
+                ? onlineUsers.map((user) => {
+                    if (user.isOnline) {
+                      return (
+                        <ListItem key={user._id}>
+                          <ListItemAvatar>
+                            <Avatar></Avatar>
+                          </ListItemAvatar>
+                          <ListItemText primary={user.nickname} />
+                        </ListItem>
+                      );
+                    }
+                  })
+                : null}
             </List>
           )}
         </div>

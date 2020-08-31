@@ -35,7 +35,7 @@ export default function LoginPage() {
     return error;
   };
 
-  const sendDataOnServer = (event, name, password, props) => {
+  const sendDataOnServer = (event, name, password) => {
     event.preventDefault();
 
     let user;
@@ -65,7 +65,6 @@ export default function LoginPage() {
         history.push("/login");
       }
     });
-    //убрать
     console.log("data send...");
   };
 

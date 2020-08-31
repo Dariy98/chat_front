@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField } from "@material-ui/core";
 import io from "socket.io-client";
-import { withRouter } from "react-router-dom";
 
 import Messages from "./Messages";
-import { deleteToken } from "./../functions";
 
-const ChatPage = () => {
+export default function ChatPage() {
   const [socket, setSocket] = useState(null);
-  // const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
-  const setupSocket = () => {
+  const deleteToken = () => {
+    localStorage.removeItem("token");
+  };
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // if (token && !socket) {
     if (token) {
       const newSocket = io("http://localhost:3001", {
         query: {
@@ -24,36 +25,32 @@ const ChatPage = () => {
 
       newSocket.on("disconnect", () => {
         deleteToken();
-        // setSocket(null);
-        setTimeout(setupSocket, 3000);
         console.log("socket connected");
       });
 
-      newSocket.on("connect", () => {
-        console.log("success", "Socket Connected!");
+      // newSocket.on("connect", () => {
+      //   console.log("success", "Socket Connected!");
+      // });
+
+      newSocket.on("result", (result) => {
+        const users = result;
+        setOnlineUsers(users);
+      });
+
+      newSocket.on("message", (message) => {
+        setMessages((messages) => [...messages, message]);
+
+        console.log("in chat", message, messages);
       });
 
       setSocket(newSocket);
     }
-  };
-
-  useEffect(() => {
-    setupSocket();
   }, []);
 
   const addMessage = (e) => {
     if (e.keyCode === 13) {
       if (e.target.value.length <= 200) {
         let message = e.target.value;
-
-        socket.on("message", (message) => {
-          const newMessages = [...messages, message];
-          setMessages(newMessages);
-
-          console.log("in main.js", message, messages);
-
-          // outputMessage(message);
-        });
 
         socket.emit("chatMessage", message);
 
@@ -68,7 +65,7 @@ const ChatPage = () => {
   return (
     <div>
       <div className="chat-box">
-        <Messages messages={messages} />
+        <Messages messages={messages} onlineUsers={onlineUsers} />
       </div>
       <Grid item xs={12}>
         <TextField
@@ -79,6 +76,4 @@ const ChatPage = () => {
       </Grid>
     </div>
   );
-};
-
-export default withRouter(ChatPage);
+}
