@@ -10,23 +10,13 @@ export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const history = useHistory();
-  const token = localStorage.getItem("token");
 
   const deleteToken = () => {
     localStorage.removeItem("token");
   };
 
-  if (!token) {
-    history.push("/login");
-  }
-
   useEffect(() => {
-    // const token = localStorage.getItem("token");
-
-    // if (!token) {
-    //   history.push("/login");
-    //   return <div></div>;
-    // }
+    const token = localStorage.getItem("token");
 
     if (token) {
       const newSocket = io("http://localhost:3001", {
@@ -37,7 +27,7 @@ export default function ChatPage() {
 
       newSocket.on("disconnect", () => {
         deleteToken();
-        console.log("socket connected");
+        history.push("/login");
       });
 
       newSocket.on("result", (result) => {
@@ -47,14 +37,13 @@ export default function ChatPage() {
 
       newSocket.on("message", (message) => {
         setMessages((messages) => [...messages, message]);
-
-        console.log("in chat", message, messages);
       });
 
       newSocket.on("ban", (user) => {
         console.log("userban", user);
         // socket.emit("ban user", { id: userId });
       });
+
       setSocket(newSocket);
     }
   }, []);
@@ -76,7 +65,6 @@ export default function ChatPage() {
   //example: 201 - ири ирир рирывааыааввыа ыв выа ыва  ипа d dfg  km  mkmkm mkmkm kmkk v dmk bhbhbhbhbhb bhbhbhbhbhbhb jij sv8u  jjijijij jijijii s v jiv f ij ij vi vj ijijijijij jiji jijiji jjiji jjiji sdf sdf aswecdx x
   return (
     <div>
-      {!token && <div>You ate banned</div>}
       <div className="chat-box">
         <Messages
           messages={messages}

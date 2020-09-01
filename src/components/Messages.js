@@ -18,7 +18,7 @@ export default function Messages({ messages, onlineUsers, socket }) {
     <Grid container spacing={3} className="chat-box">
       <UserList onlineUsers={onlineUsers} socket={socket} />
 
-      <Grid item xs={8} className="messages-box">
+      <Grid item xs={6} className="messages-box">
         <Typography variant="h6">Messages here</Typography>
         <div>
           <List>

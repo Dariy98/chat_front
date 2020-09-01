@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Grid,
   Typography,
@@ -14,10 +14,6 @@ import AdminView from "./ForAdmin";
 export default function UserList({ onlineUsers, socket }) {
   let isAdmin = true;
   // console.log("admin", isAdmin);
-  // console.log("on", onlineUsers);
-  // useEffect(() => {
-  //   onlineUsers;
-  // }, []);
 
   return (
     <Grid item xs={4}>
