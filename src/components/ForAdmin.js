@@ -7,29 +7,42 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
+  Typography,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FolderIcon from "@material-ui/icons/Folder";
 
-// тут тоже будет рендер пользователей
-export default function AdminView() {
+export default function AdminView({ onlineUsers, socket }) {
+  const onBan = (userId) => {
+    socket.emit("ban", { id: userId });
+    console.log(`user id - ${userId} is baned`);
+  };
+
   return (
     <div>
-      fdssffdsf
+      <Typography variant="h6">All users:</Typography>
       <List>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              <FolderIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="user name for admin" />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
+        {onlineUsers.map((user) => {
+          return (
+            <ListItem key={user._id}>
+              <ListItemAvatar>
+                <Avatar>
+                  <FolderIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={user.nickname} />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => onBan(user._id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
       </List>
     </div>
   );

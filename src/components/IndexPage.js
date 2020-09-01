@@ -9,7 +9,6 @@ const IndexPage = (props) => {
     } else {
       props.history.push("/chat");
     }
-    // eslint-disable-next-line
   }, [0]);
   return <div></div>;
 };

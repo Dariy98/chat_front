@@ -13,10 +13,10 @@ import UserList from "./UserList";
 // import UserAvatar from "./Avatar";
 // import { generateAvatarColor } from "./../helpers/generateAvatarColor";
 
-export default function Messages({ messages, onlineUsers }) {
+export default function Messages({ messages, onlineUsers, socket }) {
   return (
     <Grid container spacing={3} className="chat-box">
-      <UserList onlineUsers={onlineUsers} />
+      <UserList onlineUsers={onlineUsers} socket={socket} />
 
       <Grid item xs={8} className="messages-box">
         <Typography variant="h6">Messages here</Typography>

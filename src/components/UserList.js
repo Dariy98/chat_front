@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -11,35 +11,40 @@ import {
 
 import AdminView from "./ForAdmin";
 
-export default function UserList({ onlineUsers }) {
-  let isAdmin = false;
+export default function UserList({ onlineUsers, socket }) {
+  let isAdmin = true;
   // console.log("admin", isAdmin);
   // console.log("on", onlineUsers);
+  // useEffect(() => {
+  //   onlineUsers;
+  // }, []);
 
   return (
     <Grid item xs={4}>
       <Grid item xs={12}>
-        <Typography variant="h6">Users online:</Typography>
         <div>
           {isAdmin ? (
-            <AdminView />
+            <AdminView onlineUsers={onlineUsers} socket={socket} />
           ) : (
-            <List>
-              {onlineUsers
-                ? onlineUsers.map((user) => {
-                    if (user.isOnline) {
-                      return (
-                        <ListItem key={user._id}>
-                          <ListItemAvatar>
-                            <Avatar></Avatar>
-                          </ListItemAvatar>
-                          <ListItemText primary={user.nickname} />
-                        </ListItem>
-                      );
-                    }
-                  })
-                : null}
-            </List>
+            <>
+              <Typography variant="h6">Users online:</Typography>
+              <List>
+                {onlineUsers
+                  ? onlineUsers.map((user) => {
+                      if (user.isOnline) {
+                        return (
+                          <ListItem key={user._id}>
+                            <ListItemAvatar>
+                              <Avatar></Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={user.nickname} />
+                          </ListItem>
+                        );
+                      }
+                    })
+                  : null}
+              </List>
+            </>
           )}
         </div>
       </Grid>
