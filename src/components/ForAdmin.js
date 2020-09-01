@@ -9,13 +9,12 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import FolderIcon from "@material-ui/icons/Folder";
 import BlockIcon from "@material-ui/icons/Block";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import DoneIcon from "@material-ui/icons/Done";
 
-export default function AdminView({ onlineUsers, socket }) {
+export default function AdminView({ allUsers, socket }) {
   const onBan = (userId) => {
     socket.emit("ban", { id: userId });
     console.log(`user id - ${userId} is baned`);
@@ -37,16 +36,14 @@ export default function AdminView({ onlineUsers, socket }) {
   };
 
   return (
-    <div>
-      <Typography variant="h6">All users:</Typography>
+    <div className="forAdmin">
+      <Typography variant="h5">All users:</Typography>
       <List>
-        {onlineUsers.map((user) => {
+        {allUsers.map((user) => {
           return (
             <ListItem key={user._id}>
               <ListItemAvatar>
-                <Avatar>
-                  <FolderIcon />
-                </Avatar>
+                <Avatar>{user.nickname.slice(0, 3)}</Avatar>
               </ListItemAvatar>
               <ListItemText primary={user.nickname} />
               <ListItemSecondaryAction>

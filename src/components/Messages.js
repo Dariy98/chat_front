@@ -10,13 +10,11 @@ import {
 } from "@material-ui/core";
 
 import UserList from "./UserList";
-// import UserAvatar from "./Avatar";
-// import { generateAvatarColor } from "./../helpers/generateAvatarColor";
 
-export default function Messages({ messages, onlineUsers, socket }) {
+export default function Messages({ messages, allUsers, socket, token }) {
   return (
     <Grid container spacing={3} className="chat-box">
-      <UserList onlineUsers={onlineUsers} socket={socket} />
+      <UserList allUsers={allUsers} socket={socket} token={token} />
 
       <Grid item xs={6} className="messages-box">
         <Typography variant="h6">Messages here</Typography>
@@ -26,7 +24,7 @@ export default function Messages({ messages, onlineUsers, socket }) {
               return (
                 <ListItem key={index}>
                   <ListItemAvatar>
-                    <Avatar>{msg.user}</Avatar>
+                    <Avatar>{msg.user.slice(0, 3)}</Avatar>
                   </ListItemAvatar>
                   <ListItemText primary={msg.message} />
                 </ListItem>

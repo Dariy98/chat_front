@@ -8,15 +8,17 @@ import Messages from "./Messages";
 export default function ChatPage() {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [onlineUsers, setOnlineUsers] = useState([]);
+  // const [onlineUsers, setOnlineUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const history = useHistory();
+  const token = localStorage.getItem("token");
 
   const deleteToken = () => {
     localStorage.removeItem("token");
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
 
     if (token) {
       const newSocket = io("http://localhost:3001", {
@@ -32,7 +34,7 @@ export default function ChatPage() {
 
       newSocket.on("result", (result) => {
         const users = result;
-        setOnlineUsers(users);
+        setAllUsers(users);
       });
 
       newSocket.on("message", (message) => {
@@ -46,7 +48,7 @@ export default function ChatPage() {
 
       setSocket(newSocket);
     }
-  }, []);
+  }, [history, token]);
 
   const addMessage = (e) => {
     if (e.keyCode === 13) {
@@ -68,8 +70,9 @@ export default function ChatPage() {
       <div className="chat-box">
         <Messages
           messages={messages}
-          onlineUsers={onlineUsers}
+          allUsers={allUsers}
           socket={socket}
+          token={token}
         />
       </div>
       <>

@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router";
 
-const IndexPage = (props) => {
+const IndexPage = () => {
+  const history = useHistory();
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      props.history.push("/login");
+      history.push("/login");
     } else {
-      props.history.push("/chat");
+      history.push("/chat");
     }
-  }, [0]);
+  }, [history]);
   return <div></div>;
 };
 
