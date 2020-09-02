@@ -35,6 +35,15 @@ export default function LoginPage() {
     return error;
   };
 
+  const generateRandomColor = () => {
+    let letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   const sendDataOnServer = (event, name, password) => {
     event.preventDefault();
 
@@ -45,6 +54,7 @@ export default function LoginPage() {
     user = {
       nickname: name,
       password: password,
+      color: generateRandomColor(),
     };
 
     const response = fetch("http://localhost:3001/auth", {

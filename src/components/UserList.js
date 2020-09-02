@@ -31,9 +31,14 @@ export default function UserList({ allUsers, socket, token }) {
                         return (
                           <ListItem key={user._id}>
                             <ListItemAvatar>
-                              <Avatar>{user.nickname.slice(0, 3)}</Avatar>
+                              <Avatar style={{ backgroundColor: user.color }}>
+                                {user.nickname.slice(0, 3)}
+                              </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={user.nickname} />
+                            <ListItemText
+                              primary={user.nickname}
+                              style={{ color: user.color }}
+                            />
                           </ListItem>
                         );
                       }

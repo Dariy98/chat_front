@@ -24,9 +24,14 @@ export default function Messages({ messages, allUsers, socket, token }) {
               return (
                 <ListItem key={index}>
                   <ListItemAvatar>
-                    <Avatar>{msg.user.slice(0, 3)}</Avatar>
+                    <Avatar style={{ backgroundColor: msg.color }}>
+                      {msg.nickname.slice(0, 3)}
+                    </Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={msg.message} />
+                  <ListItemText
+                    primary={msg.message}
+                    style={{ color: msg.color }}
+                  />
                 </ListItem>
               );
             })}

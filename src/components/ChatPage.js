@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Grid, TextField } from "@material-ui/core";
 import io from "socket.io-client";
 import { useHistory } from "react-router-dom";
+import decode from "jwt-decode";
 
 import Messages from "./Messages";
 
 export default function ChatPage() {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
-  // const [onlineUsers, setOnlineUsers] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const history = useHistory();
   const token = localStorage.getItem("token");
+  const user = decode(token);
 
   const deleteToken = () => {
     localStorage.removeItem("token");
@@ -55,13 +56,24 @@ export default function ChatPage() {
       if (e.target.value.length <= 200) {
         let message = e.target.value;
 
-        socket.emit("chatMessage", message);
+        // socket.emit("chatMessage", message);
+        socket.emit("chatMessage", {
+          nickname: user.nickname,
+          text: message,
+          date: new Date(),
+        });
 
         e.target.value = "";
       } else {
         alert("Limited to 200 characters!");
       }
     }
+  };
+
+  const signOut = () => {
+    localStorage.removeItem("token");
+    socket.disconnect();
+    history.push("/login");
   };
 
   //example: 201 - ири ирир рирывааыааввыа ыв выа ыва  ипа d dfg  km  mkmkm mkmkm kmkk v dmk bhbhbhbhbhb bhbhbhbhbhbhb jij sv8u  jjijijij jijijii s v jiv f ij ij vi vj ijijijijij jiji jijiji jjiji jjiji sdf sdf aswecdx x

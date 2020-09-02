@@ -25,14 +25,14 @@ export default function AdminView({ allUsers, socket }) {
     console.log(`user id - ${userId} is UNbaned`);
   };
 
-  const onMute = (user) => {
-    socket.emit("mute", user);
-    // console.log(`user id - ${userId} is mute`);
+  const onMute = (userId) => {
+    socket.emit("mute", { id: userId });
+    console.log(`user id - ${userId} is mute`);
   };
 
-  const onUnMute = (user) => {
-    socket.emit("unmute", user);
-    // console.log(`user id - ${userId} is mute`);
+  const onUnMute = (userId) => {
+    socket.emit("unmute", { id: userId });
+    console.log(`user id - ${userId} is mute`);
   };
 
   return (
@@ -43,26 +43,37 @@ export default function AdminView({ allUsers, socket }) {
           return (
             <ListItem key={user._id}>
               <ListItemAvatar>
-                <Avatar>{user.nickname.slice(0, 3)}</Avatar>
+                <Avatar style={{ backgroundColor: user.color }}>
+                  {user.nickname.slice(0, 3)}
+                </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={user.nickname} />
+              <ListItemText
+                primary={user.nickname}
+                style={{ color: user.color }}
+              />
               <ListItemSecondaryAction>
-                <IconButton onClick={() => onBan(user._id)}>
-                  <BlockIcon />
-                  ban
-                </IconButton>
-                <IconButton onClick={() => onUnBan(user._id)}>
-                  unban
-                  <LockOpenIcon />
-                </IconButton>
-                <IconButton onClick={() => onMute(user)}>
-                  <VolumeMuteIcon />
-                  mute
-                </IconButton>
-                <IconButton onClick={() => onUnMute(user)}>
-                  <DoneIcon />
-                  unmute
-                </IconButton>
+                {user.isBane ? (
+                  <IconButton onClick={() => onUnBan(user._id)}>
+                    <LockOpenIcon />
+                    unban
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={() => onBan(user._id)}>
+                    <BlockIcon />
+                    ban
+                  </IconButton>
+                )}
+                {user.isMute ? (
+                  <IconButton onClick={() => onUnMute(user._id)}>
+                    <DoneIcon />
+                    unmute
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={() => onMute(user._id)}>
+                    <VolumeMuteIcon />
+                    mute
+                  </IconButton>
+                )}
               </ListItemSecondaryAction>
             </ListItem>
           );
