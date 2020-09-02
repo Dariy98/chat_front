@@ -2,7 +2,7 @@
   text-align: center;
   margin: 0 auto;
   background-color: #e5e5e5;
-  width: 100%;
+  max-width: 90%;
   height: 100vh;
 }
 .auth_title {
@@ -32,13 +32,20 @@
   margin-bottom: 20px;
 }
 .messages-box {
+  /* display: block; */
   border: 1px solid red;
   height: 500px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  background-color: white;
 }
 #standard-basic {
   border: 1px solid red;
   padding: 20px;
-  width: 300px;
+  width: 400px;
+}
+.text-field {
+  padding-bottom: 34px;
 }
 @media (min-width: 320px) {
   .App {

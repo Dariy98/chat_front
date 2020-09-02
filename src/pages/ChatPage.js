@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, Button } from "@material-ui/core";
 import io from "socket.io-client";
 import { useHistory } from "react-router-dom";
-import decode from "jwt-decode";
 
-import Messages from "./Messages";
+import Messages from "../components/Messages";
+import UserList from "../components/UserList";
 
 export default function ChatPage() {
   const [socket, setSocket] = useState(null);
@@ -12,15 +12,12 @@ export default function ChatPage() {
   const [allUsers, setAllUsers] = useState([]);
   const history = useHistory();
   const token = localStorage.getItem("token");
-  const user = decode(token);
 
   const deleteToken = () => {
     localStorage.removeItem("token");
   };
 
   useEffect(() => {
-    // const token = localStorage.getItem("token");
-
     if (token) {
       const newSocket = io("http://localhost:3001", {
         query: {
@@ -39,26 +36,28 @@ export default function ChatPage() {
       });
 
       newSocket.on("message", (message) => {
-        setMessages((messages) => [...messages, message]);
-      });
-
-      newSocket.on("ban", (user) => {
-        console.log("userban", user);
-        // socket.emit("ban user", { id: userId });
+        if (typeof message === "string") {
+          alert(message);
+        } else {
+          setMessages((messages) => [...messages, message]);
+        }
       });
 
       setSocket(newSocket);
+    } else {
+      history.push("/");
     }
-  }, [history, token]);
+  }, [token]);
 
   const addMessage = (e) => {
     if (e.keyCode === 13) {
       if (e.target.value.length <= 200) {
         let message = e.target.value;
+        if (message === "") {
+          return;
+        }
 
-        // socket.emit("chatMessage", message);
         socket.emit("chatMessage", {
-          nickname: user.nickname,
           text: message,
           date: new Date(),
         });
@@ -71,31 +70,35 @@ export default function ChatPage() {
   };
 
   const signOut = () => {
-    localStorage.removeItem("token");
+    deleteToken();
     socket.disconnect();
     history.push("/login");
   };
 
-  //example: 201 - ири ирир рирывааыааввыа ыв выа ыва  ипа d dfg  km  mkmkm mkmkm kmkk v dmk bhbhbhbhbhb bhbhbhbhbhbhb jij sv8u  jjijijij jijijii s v jiv f ij ij vi vj ijijijijij jiji jijiji jjiji jjiji sdf sdf aswecdx x
   return (
     <div>
-      <div className="chat-box">
-        <Messages
-          messages={messages}
-          allUsers={allUsers}
-          socket={socket}
-          token={token}
-        />
-      </div>
-      <>
-        <Grid item xs={12}>
+      <Grid container xs={12}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disableElevation
+          onClick={signOut}
+        >
+          Sign Out
+        </Button>
+        <UserList allUsers={allUsers} socket={socket} token={token} />
+        <Grid>
+          <Messages messages={messages} />
           <TextField
             id="standard-basic"
             label="Write message"
             onKeyUp={(e) => addMessage(e)}
           />
+          <Button variant="contained" color="primary" disableElevation>
+            Add message
+          </Button>
         </Grid>
-      </>
+      </Grid>
     </div>
   );
 }

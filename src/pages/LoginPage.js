@@ -67,11 +67,12 @@ export default function LoginPage() {
 
     //add token in localStorage
     response.then((data) => {
+      localStorage.clear();
       if (data.token) {
         localStorage.setItem("token", data.token);
         history.push("/chat");
       } else {
-        console.log("data error!!!!!!");
+        alert("Not valid data.");
         history.push("/login");
       }
     });

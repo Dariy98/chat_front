@@ -22,7 +22,7 @@ export default function AdminView({ allUsers, socket }) {
 
   const onUnBan = (userId) => {
     socket.emit("unban", { id: userId });
-    console.log(`user id - ${userId} is UNbaned`);
+    console.log(`user id - ${userId} is Unbaned`);
   };
 
   const onMute = (userId) => {
@@ -32,7 +32,7 @@ export default function AdminView({ allUsers, socket }) {
 
   const onUnMute = (userId) => {
     socket.emit("unmute", { id: userId });
-    console.log(`user id - ${userId} is mute`);
+    console.log(`user id - ${userId} is Unmute`);
   };
 
   return (

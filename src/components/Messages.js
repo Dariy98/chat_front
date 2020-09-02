@@ -11,18 +11,16 @@ import {
 
 import UserList from "./UserList";
 
-export default function Messages({ messages, allUsers, socket, token }) {
+export default function Messages({ messages }) {
   return (
-    <Grid container spacing={3} className="chat-box">
-      <UserList allUsers={allUsers} socket={socket} token={token} />
-
-      <Grid item xs={6} className="messages-box">
+    <Grid className="chat-box">
+      <Grid xs={12} className="messages-box">
         <Typography variant="h6">Messages here</Typography>
         <div>
           <List>
-            {messages.map((msg, index) => {
+            {messages.map((msg) => {
               return (
-                <ListItem key={index}>
+                <ListItem key={msg.id}>
                   <ListItemAvatar>
                     <Avatar style={{ backgroundColor: msg.color }}>
                       {msg.nickname.slice(0, 3)}

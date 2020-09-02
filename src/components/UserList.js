@@ -13,13 +13,13 @@ import decode from "jwt-decode";
 import AdminView from "./ForAdmin";
 
 export default function UserList({ allUsers, socket, token }) {
-  const user = decode(token);
+  const user = token && decode(token);
 
   return (
     <Grid item xs={4}>
-      <Grid item xs={12}>
+      <Grid item xs={8}>
         <div>
-          {user.isAdmin ? (
+          {user && user.isAdmin ? (
             <AdminView allUsers={allUsers} socket={socket} />
           ) : (
             <>
@@ -42,7 +42,7 @@ export default function UserList({ allUsers, socket, token }) {
                           </ListItem>
                         );
                       }
-                      return <></>;
+                      return null;
                     })
                   : null}
               </List>
