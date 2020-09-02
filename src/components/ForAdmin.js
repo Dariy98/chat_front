@@ -3,11 +3,12 @@ import {
   List,
   ListItem,
   Avatar,
-  ListItemAvatar,
+  Divider,
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
   Typography,
+  ListItemIcon,
 } from "@material-ui/core";
 import BlockIcon from "@material-ui/icons/Block";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
@@ -36,17 +37,63 @@ export default function AdminView({ allUsers, socket }) {
   };
 
   return (
-    <div className="forAdmin">
-      <Typography variant="h5">All users:</Typography>
+    <>
+      <Divider />
+      <Typography variant="h6">Online users:</Typography>
       <List>
+        {allUsers.map((user) => {
+          if (user.isOnline) {
+            return (
+              <ListItem key={user._id}>
+                <ListItemIcon>
+                  <Avatar style={{ backgroundColor: user.color }}>
+                    {user.nickname.slice(0, 3)}
+                  </Avatar>
+                </ListItemIcon>
+                <ListItemText
+                  primary={user.nickname}
+                  style={{ color: user.color }}
+                />
+                <ListItemSecondaryAction>
+                  {user.isBane ? (
+                    <IconButton onClick={() => onUnBan(user._id)}>
+                      <LockOpenIcon />
+                      unban
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={() => onBan(user._id)}>
+                      <BlockIcon />
+                      ban
+                    </IconButton>
+                  )}
+                  {user.isMute ? (
+                    <IconButton onClick={() => onUnMute(user._id)}>
+                      <DoneIcon />
+                      unmute
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={() => onMute(user._id)}>
+                      <VolumeMuteIcon />
+                      mute
+                    </IconButton>
+                  )}
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          }
+        })}
+      </List>
+      <Divider />
+      <List>
+        <Typography variant="h6">All users:</Typography>
         {allUsers.map((user) => {
           return (
             <ListItem key={user._id}>
-              <ListItemAvatar>
+              <ListItemIcon>
                 <Avatar style={{ backgroundColor: user.color }}>
                   {user.nickname.slice(0, 3)}
                 </Avatar>
-              </ListItemAvatar>
+              </ListItemIcon>
               <ListItemText
                 primary={user.nickname}
                 style={{ color: user.color }}
@@ -79,6 +126,6 @@ export default function AdminView({ allUsers, socket }) {
           );
         })}
       </List>
-    </div>
+    </>
   );
 }
