@@ -10,7 +10,7 @@ import {
 export default function Messages({ messages }) {
   return (
     <>
-      <List style={{ flexGrow: 1, flexShrink: 0, flexBasis: "auto" }}>
+      <List>
         {messages.map((msg) => {
           return (
             <ListItem key={msg.id}>

@@ -1,12 +1,19 @@
+.App {
+  height: 100%;
+  text-align: center;
+}
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  position: relative;
-  overflow: hidden;
+  height: 100%;
+  justify-content: flex-end;
+}
+.toolbar-cust {
+  display: flex;
+  justify-content: space-between;
 }
 .auth_title {
-  color: slateblue;
+  color: #3f51b5;
   margin-bottom: 14px;
 }
 .form_auth {
@@ -14,7 +21,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 2px solid slateblue;
+  border: 2px solid #3f51b5;
   width: 400px;
   margin: 0 auto;
   padding: 22px 0;
@@ -23,7 +30,7 @@
   width: 300px;
   padding: 10px;
   margin: 20px 0;
-  border: 1px solid slateblue;
+  border: 1px solid #3f51b5;
   border-radius: 5px;
 }
 .error-div {
@@ -32,7 +39,14 @@
   margin-bottom: 20px;
 }
 .footer {
-  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+.nav {
+  padding-top: 15px;
+  padding-left: 5px;
 }
 @media (min-width: 320px) {
   .form_auth {

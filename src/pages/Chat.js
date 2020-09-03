@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import { Button } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import io from "socket.io-client";
 import { useHistory } from "react-router-dom";
@@ -17,18 +18,13 @@ import decode from "jwt-decode";
 import Messages from "./../components/Messages";
 import UserList from "./../components/UserList";
 import AdminView from "./../components/ForAdmin";
-import AddMessage from "./../components/AddMessage";
+import Footer from "./../components/Footer";
 
 const drawerWidth = 310;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  container: {
     display: "flex",
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: "auto",
-    // paddingBottom: "50px",
-    // position: "relative",
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
@@ -55,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    // flexShrink: 0,
-    // flexBasis: "auto",
+    height: "788px",
+    overflowY: "scroll",
     padding: theme.spacing(3),
   },
 }));
@@ -65,7 +61,7 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -121,11 +117,11 @@ function ResponsiveDrawer(props) {
   };
 
   const drawer = (
-    <div>
+    <div className="nav">
       <div className={classes.toolbar} />
       <Divider />
       {user && user.isAdmin ? (
-        <AdminView allUsers={allUsers} socket={socket} />
+        <AdminView allUsers={allUsers} socket={socket} user={user} />
       ) : (
         <UserList allUsers={allUsers} />
       )}
@@ -138,10 +134,10 @@ function ResponsiveDrawer(props) {
 
   return (
     <div className="wrapper">
-      <div className={classes.root}>
+      <div className={classes.container}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
+          <Toolbar className="toolbar-cust">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -154,6 +150,9 @@ function ResponsiveDrawer(props) {
             <Typography variant="h6" noWrap>
               Chat
             </Typography>
+            <Button variant="contained" disableElevation onClick={signOut}>
+              Sign Out
+            </Button>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">
@@ -191,7 +190,7 @@ function ResponsiveDrawer(props) {
           <Messages messages={messages} />
         </main>
       </div>
-      <AddMessage socket={socket} />
+      <Footer socket={socket} />
     </div>
   );
 }

@@ -3,7 +3,6 @@ import {
   List,
   ListItem,
   Avatar,
-  Divider,
   ListItemText,
   ListItemSecondaryAction,
   Typography,
@@ -15,40 +14,25 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import DoneIcon from "@material-ui/icons/Done";
 
-import AllUsersList from "./AllUsers";
 import Admin from "./Admin";
 
-export default function AdminView({ allUsers, socket, user }) {
-  const onBan = (userId) => {
-    socket.emit("ban", { id: userId });
-    console.log(`user id - ${userId} is baned`);
-  };
-
-  const onUnBan = (userId) => {
-    socket.emit("unban", { id: userId });
-    console.log(`user id - ${userId} is Unbaned`);
-  };
-
-  const onMute = (userId) => {
-    socket.emit("mute", { id: userId });
-    console.log(`user id - ${userId} is mute`);
-  };
-
-  const onUnMute = (userId) => {
-    socket.emit("unmute", { id: userId });
-    console.log(`user id - ${userId} is Unmute`);
-  };
-
+export default function AllUsersList({
+  allUsers,
+  onBan,
+  onUnBan,
+  onMute,
+  onUnMute,
+}) {
   return (
     <>
-      <Divider />
-      <Typography variant="h6">Online users:</Typography>
+      <Typography variant="h6">All users:</Typography>
       <List>
         {allUsers.map((user) => {
-          if (user.isOnline && user.isAdmin) {
+          if (user.isAdmin) {
             return <Admin user={user} />;
           }
-          if (user.isOnline && !user.isAdmin) {
+
+          if (!user.isAdmin) {
             return (
               <ListItem key={user._id}>
                 <ListItemIcon>
@@ -94,14 +78,6 @@ export default function AdminView({ allUsers, socket, user }) {
           return null;
         })}
       </List>
-      <Divider />
-      <AllUsersList
-        allUsers={allUsers}
-        onBan={onBan}
-        onUnBan={onUnBan}
-        onMute={onMute}
-        onUnMute={onUnMute}
-      />
     </>
   );
 }
