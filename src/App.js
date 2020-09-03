@@ -9,10 +9,12 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <div className="App">
-          <Route path={["/login", "/"]} render={() => <LoginPage />} exact />
-          <Route path="/chat" render={() => <MiniDrawer />} exact />
-        </div>
+        <>
+          <div className="App">
+            <Route path={["/login", "/"]} render={() => <LoginPage />} exact />
+            <Route path="/chat" render={() => <MiniDrawer />} exact />
+          </div>
+        </>
       </Switch>
     </BrowserRouter>
   );

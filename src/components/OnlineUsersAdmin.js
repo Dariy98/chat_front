@@ -29,7 +29,7 @@ export default function OnlineUsersAdmin({
       <List>
         {allUsers.map((user) => {
           if (user.isOnline && user.isAdmin) {
-            return <Admin user={user} />;
+            return <Admin user={user} key={user._id} />;
           }
           if (user.isOnline && !user.isAdmin) {
             return (
@@ -43,7 +43,7 @@ export default function OnlineUsersAdmin({
                   primary={user.nickname}
                   style={{ color: user.color }}
                 />
-                <ListItemSecondaryAction>
+                <ListItemSecondaryAction key={user._id}>
                   {user.isBane ? (
                     <Chip
                       avatar={<LockOpenIcon />}

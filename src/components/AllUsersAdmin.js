@@ -29,7 +29,7 @@ export default function AllUsersListAdmin({
       <List>
         {allUsers.map((user) => {
           if (user.isAdmin) {
-            return <Admin user={user} />;
+            return <Admin user={user} key={user._id} />;
           }
 
           if (!user.isAdmin) {
