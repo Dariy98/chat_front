@@ -16,7 +16,7 @@ import DoneIcon from "@material-ui/icons/Done";
 
 import Admin from "./Admin";
 
-export default function AllUsersList({
+export default function AllUsersListAdmin({
   allUsers,
   onBan,
   onUnBan,

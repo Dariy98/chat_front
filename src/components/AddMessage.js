@@ -26,7 +26,7 @@ export default function AddMessage({ socket }) {
     <>
       <TextField
         id="standard-full-width"
-        label="Add message"
+        label="Write your message and press 'Enter'"
         style={{ padding: 7, width: "50%", border: "1px solid gray" }}
         placeholder="Write message"
         fullWidth

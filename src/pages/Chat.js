@@ -20,7 +20,7 @@ import UserList from "./../components/UserList";
 import AdminView from "./../components/ForAdmin";
 import Footer from "./../components/Footer";
 
-const drawerWidth = 310;
+const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   content: {
+    display: "flex",
     flexGrow: 1,
     height: "788px",
     overflowY: "scroll",
